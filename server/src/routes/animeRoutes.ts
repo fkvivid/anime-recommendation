@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getUserAnime, addUserAnime, updateUserAnime, deleteUserAnime } from '../controllers/animeController';
-import { authenticateToken } from '../middleware/auth';
+import { getUserAnime, addUserAnime, updateUserAnime, deleteUserAnime } from '../controllers/animeController.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = Router();
 

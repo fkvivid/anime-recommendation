@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/userModel';
-import { RefreshTokenModel } from '../models/refreshToken';
-import { AuthRequest } from '../middleware/auth';
+import { UserModel } from '../models/userModel.js';
+import { RefreshTokenModel } from '../models/refreshToken.js';
+import { type AuthRequest } from '../middleware/auth.js';
 import { generateUsername } from "unique-username-generator";
 
 export const signup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

@@ -1,7 +1,7 @@
-import { NextFunction, Response } from 'express';
-import { UserAnimeModel } from '../models/userAnimeModel';
-import { AnimeModel } from '../models/animeModel';
-import { AuthRequest } from '../middleware/auth';
+import type { NextFunction, Response } from 'express';
+import { UserAnimeModel } from '../models/userAnimeModel.js';
+import { AnimeModel } from '../models/animeModel.js';
+import { type AuthRequest } from '../middleware/auth.js';
 
 export const getUserAnime = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -10,11 +10,11 @@ export const getUserAnime = async (req: AuthRequest, res: Response, next: NextFu
         const skip = (Number(page) - 1) * Number(limit);
         const userAnime = await UserAnimeModel.find({ userId }).limit(Number(limit)).skip(skip);
 
-        const animeIds = userAnime.map((ua) => ua.animeId);
+        const animeIds = userAnime.map((ua: any) => ua.animeId);
         const animeDocs = await AnimeModel.find({ _id: { $in: animeIds } }, { embedding: 0 })
-        const animeMap = new Map(animeDocs.map((anime) => [anime._id.toString(), anime]));
+        const animeMap = new Map(animeDocs.map((anime: any) => [anime._id.toString(), anime]));
 
-        const response = userAnime.map((ua) => ({
+        const response = userAnime.map((ua: any) => ({
             ...ua.toObject(),
             anime: animeMap.get(ua.animeId.toString()) || null,
         }));
@@ -62,7 +62,7 @@ export const updateUserAnime = async (req: AuthRequest, res: Response, next: Nex
         const { id } = req.params;
         const { status, userRating } = req.body;
 
-        const userAnime = await UserAnimeModel.findOne({ _id: id, userId });
+        const userAnime = await UserAnimeModel.findOne({ _id: id as string, userId });
         if (!userAnime) {
             throw new Error('User anime not found');
         }
@@ -83,7 +83,7 @@ export const deleteUserAnime = async (req: AuthRequest, res: Response, next: Nex
         const userId = req.user!.id;
         const { id } = req.params;
 
-        const result = await UserAnimeModel.deleteOne({ _id: id, userId });
+        const result = await UserAnimeModel.deleteOne({ _id: id as string, userId });
         if (result.deletedCount === 0) {
             throw new Error('User anime not found');
         }

@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import { connectDB } from './utils/connectDB';
-import authRoutes from './routes/authRoutes';
-import animeRoutes from './routes/animeRoutes';
-import recommendationRoutes from './routes/recommendationRoutes';
-import { errorHandler } from './middleware/errorHandler';
+import { connectDB } from './utils/connectDB.js';
+import authRoutes from './routes/authRoutes.js';
+import animeRoutes from './routes/animeRoutes.js';
+import recommendationRoutes from './routes/recommendationRoutes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 import morgan from 'morgan';
 
 const app = express();

@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import { getRecommendations, getAnimeDetails, getAnimes } from '../controllers/recommendationController';
-import { authenticateToken } from '../middleware/auth';
+import { getRecommendations, getAnimeDetails, getAnimes, randomizeRecommendations } from '../controllers/recommendationController.js';
 
 const router = Router();
 
-router.use(authenticateToken);
-
 router.post('/', getRecommendations);
+router.get('/random', randomizeRecommendations);
 router.get('/:mal_id', getAnimeDetails);
 router.get('/', getAnimes);
 

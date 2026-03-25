@@ -23,4 +23,8 @@ export class AnimeService {
   getAnimes(page: number, limit: number = 10): Observable<RecommendResponse> {
     return this.http.get<RecommendResponse>(`${this.recBase}?limit=${limit}&page=${page}`);
   }
+
+  getRandom(): Observable<ApiResponse<Anime>> {
+    return this.http.get<ApiResponse<Anime>>(`${this.recBase}/random`);
+  }
 }

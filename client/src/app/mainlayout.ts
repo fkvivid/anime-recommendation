@@ -31,14 +31,17 @@ import { AuthService } from './services/auth-service';
             </div>
 
             <div class="hidden md:flex items-center gap-8">
-              @if (userDisplayName()) {
                 <a routerLink="/animes" 
                   routerLinkActive="text-blue-600"
                   class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Animes</a>
+              @if (userDisplayName()) {
                 <a routerLink="/my-animes" 
                   routerLinkActive="text-blue-600"
                   class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">My Animes</a>
               }
+              <a routerLink="/random" 
+                routerLinkActive="text-blue-600"
+                class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Random</a>
             </div>
 
             <div class="flex items-center gap-4">

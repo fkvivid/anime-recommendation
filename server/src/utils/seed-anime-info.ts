@@ -1,66 +1,32 @@
-import mongoose from 'mongoose';
 import OpenAI from 'openai';
 import axios from 'axios'
-import { AnimeModel, IAnime } from '../models/animeModel';
-import { connectDB } from './connectDB';
+import { AnimeModel, type IAnime } from '../models/animeModel.js';
+import { connectDB } from './connectDB.js';
+import { getBaseTitle } from './util-functions.js';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
 const JIKAN_BASE = 'https://api.jikan.moe/v4/top/anime?filter=bypopularity';
-const TOTAL_ANIME = 1000;
+const TOTAL_ANIME = 100;
 
 export function buildEmbedText(anime: IAnime): string {
     const tags = [
         ...anime.genres,
         ...anime.themes,
         ...anime.demographics,
-    ]
-        .filter(Boolean)
-        .join(", ");
+    ].filter(Boolean).join(", ");
 
     const studios = anime.studios.filter(Boolean).join(", ");
 
-    const lines: string[] = [
-        `Title: ${anime.title}`,
-        anime.title_english ? `English title: ${anime.title_english}` : "",
-        anime.title_japanese ? `Japanese title: ${anime.title_japanese}` : "",
-
-        `Type: ${anime.type}`,
-        anime.source ? `Source: ${anime.source}` : "",
-        anime.episodes ? `Episodes: ${anime.episodes}` : "",
-        anime.season && anime.year
-            ? `Season: ${anime.season} ${anime.year}`
-            : "",
-        anime.rating ? `Rating: ${anime.rating}` : "",
-        anime.duration ? `Duration: ${anime.duration}` : "",
-        anime.status ? `Status: ${anime.status}` : "",
-
-        anime.score !== null
-            ? `MAL score: ${anime.score} out of 10`
-            : "",
-        anime.rank !== null
-            ? `MAL rank: #${anime.rank} overall`
-            : "",
-        anime.popularity !== null
-            ? `Popularity rank: #${anime.popularity}`
-            : "",
-
-        tags ? `Genres and themes: ${tags}` : "",
-
-        studios ? `Studios: ${studios}` : "",
-
-        anime.synopsis
-            ? `Synopsis: ${anime.synopsis}`
-            : "",
-    ];
-
-    return lines
-        .map((l) => l.trim())
-        .filter(Boolean)
-        .join("\n")
-        .slice(0, 8000);
+    return `
+        Anime Title: ${anime.title_english || anime.title} (${anime.title_japanese || 'No Japanese Title'})
+        Metadata: A ${anime.type} series animated by ${studios || 'Unknown Studio'}, based on ${anime.source || 'Original'} material. 
+        Aired: ${anime.season && anime.year ? `${anime.season} ${anime.year}` : 'Unknown'}.
+        Themes and Genres: ${tags || 'None'}.
+        Synopsis: ${anime.synopsis || 'N/A'}
+    `.trim().replace(/\n+/g, ' ').slice(0, 8000);
 }
 
 export async function embedAnime(anime: IAnime): Promise<number[]> {
@@ -78,16 +44,35 @@ export async function embedAnime(anime: IAnime): Promise<number[]> {
 async function main() {
 
     let current = 0;
-    let page = 1
+    let page = 1;
+    const seenTitles = new Set<string>();
 
-    await connectDB()
+    await connectDB();
 
-    await AnimeModel.deleteMany({})
+    // await AnimeModel.deleteMany({});
 
     do {
-        const { data } = await axios.get(`${JIKAN_BASE}&page=${page++}`)
+        const { data } = await axios.get(`${JIKAN_BASE}&page=${page++}`);
 
-        for (const anime of data.data as any[]) {
+        const animeList = data.data as any[];
+        if (!animeList || animeList.length === 0) break;
+
+        for (const anime of animeList) {
+            const baseJapanese = getBaseTitle(anime.title);
+            const baseEnglish = getBaseTitle(anime.title_english);
+
+            let isDuplicate = false;
+            if (baseJapanese && seenTitles.has(baseJapanese)) isDuplicate = true;
+            if (baseEnglish && seenTitles.has(baseEnglish)) isDuplicate = true;
+
+            if (isDuplicate) {
+                console.log(`Skipping duplicate sequence/season: ${anime.title}`);
+                continue;
+            }
+
+            if (baseJapanese) seenTitles.add(baseJapanese);
+            if (baseEnglish) seenTitles.add(baseEnglish);
+
             const transformedAnime: Partial<IAnime> = {
                 mal_id: anime.mal_id,
                 title: anime.title,
@@ -117,7 +102,7 @@ async function main() {
             const embed = await embedAnime(transformedAnime as IAnime)
 
             const response = await AnimeModel.updateOne(
-                { mal_id: transformedAnime.mal_id },
+                { mal_id: transformedAnime.mal_id as number },
                 {
                     $set: {
                         ...transformedAnime,

@@ -9,7 +9,8 @@ export const routes: Routes = [
         children: [
 
             { path: '', loadComponent: () => import('./pages/homepage').then(m => m.Homepage), pathMatch: 'full' },
-            { path: 'animes', loadComponent: () => import('./pages/animes').then(m => m.Animes), canActivate: [authGuard], },
+            { path: 'random', loadComponent: () => import('./pages/random').then(m => m.RandomPage) },
+            { path: 'animes', loadComponent: () => import('./pages/animes').then(m => m.Animes) },
             { path: 'my-animes', loadComponent: () => import('./pages/my-animes').then(m => m.MyAnimes), canActivate: [authGuard], },
             { path: 'login', loadComponent: () => import('./pages/login').then(m => m.Login) },
             { path: 'register', loadComponent: () => import('./pages/register').then(m => m.Register) },

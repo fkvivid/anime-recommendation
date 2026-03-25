@@ -85,6 +85,4 @@ const AnimeSchema = new Schema<IAnime>(
     { collection: "animes", timestamps: false }
 );
 
-AnimeSchema.index({ mal_id: 1 });
-
 export const AnimeModel = mongoose.model<IAnime>("Anime", AnimeSchema);

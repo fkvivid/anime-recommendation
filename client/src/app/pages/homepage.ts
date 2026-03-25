@@ -47,7 +47,7 @@ import { AuthService } from '../services/auth-service';
           Search for an anime you love, and let our AI recommend hidden gems that match your vibe.
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-xl p-4 rounded-3xl border border-white/20 shadow-2xl">
+          <div class="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-xl p-4 rounded-3xl border border-white/20 shadow-2xl mb-6">
             <input 
               [(ngModel)]="searchQuery" 
               type="text"
@@ -60,7 +60,8 @@ import { AuthService } from '../services/auth-service';
               mat-flat-button 
               color="primary" 
               (click)="onSearch()"
-              [disabled]="isLoading()"
+              [class.pointer-events-none]="isLoading()"
+              [class.opacity-70]="isLoading()"
               class="h-12 px-8 font-bold rounded-xl transition-all hover:scale-105 active:scale-95">
               @if (isLoading()) {
                 <span>Searching...</span>
@@ -106,24 +107,30 @@ import { AuthService } from '../services/auth-service';
                 </div>
 
                 <div class="p-6">
-                  <h3 class="text-xl font-bold text-slate-800 line-clamp-1 mb-2">
+                  <h3 class="text-xl font-bold text-slate-800 line-clamp-1 mb-1">
                     {{ anime.title }}
                   </h3>
-                  <div class="flex gap-2">
-                    <div class="flex gap-2 flex-wrap">
-                      @for (genre of anime.genres; track genre; let i = $index) {
-                        @if (i < 3) {
-                          <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500 bg-slate-100 px-2 py-1 rounded">
-                            {{ genre }}
-                          </span>
-                        }
-                      } @empty {
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500 bg-slate-100 px-2 py-1 rounded">
-                          N/A
+                  <p class="text-xs text-slate-500 italic mb-3 line-clamp-1">
+                    {{ anime.title_english || anime.title_japanese || anime.title }}
+                  </p>
+
+                  <div class="flex gap-2 mb-4 flex-wrap">
+                    @for (genre of anime.genres; track genre; let i = $index) {
+                      @if (i < 3) {
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                          {{ genre }}
                         </span>
                       }
-                    </div>
+                    } @empty {
+                      <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
+                        N/A
+                      </span>
+                    }
                   </div>
+
+                  <p class="text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                    {{ anime.synopsis || 'No synopsis available.' }}
+                  </p>
                 </div>
                 
                 <div class="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
@@ -146,12 +153,7 @@ export class Homepage {
   authService = inject(AuthService);
 
   onSearch() {
-    if (!this.searchQuery().trim()) return;
-    if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('Please log in to get recommendations!', 'Close', { duration: 3000 });
-      this.router.navigate(['/login']);
-      return;
-    }
+    if (!this.searchQuery().trim() || this.isLoading()) return;
     this.isLoading.set(true);
 
     this.animeService.recommend(this.searchQuery()).subscribe({
