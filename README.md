@@ -2,6 +2,10 @@
 
 Full‑stack anime discovery app that combines a typed Node.js API, an Angular (v21) client, and an AI-powered recommendation pipeline using OpenAI embeddings + MongoDB Atlas Vector Search.
 
+## Live demo
+
+**Production:** [https://anime.vividtemka.com](https://anime.vividtemka.com)
+
 ## Why this project
 - **Problem**: keyword search often fails for “vibe-based” queries (mood, themes, pacing, tone).
 - **Solution**: store anime metadata embeddings in MongoDB, expand the user query with an LLM, then run **vector similarity search** to return relevant titles.
