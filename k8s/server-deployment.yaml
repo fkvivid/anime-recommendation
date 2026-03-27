@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anime-server
+  namespace: anime-recommendation
+  labels:
+    app: anime-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anime-server
+  template:
+    metadata:
+      labels:
+        app: anime-server
+    spec:
+      containers:
+        - name: server
+          image: fkvivid/anime-recommendation-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: anime-app-secrets
+                  key: MONGODB_URI
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: anime-app-secrets
+                  key: OPENAI_API_KEY
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: anime-app-secrets
+                  key: JWT_SECRET
+            - name: JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: anime-app-secrets
+                  key: JWT_REFRESH_SECRET
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

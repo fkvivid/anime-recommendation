@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anime-client
+  namespace: anime-recommendation
+  labels:
+    app: anime-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anime-client
+  template:
+    metadata:
+      labels:
+        app: anime-client
+    spec:
+      # Uncomment and configure if using a private Docker registry
+      # imagePullSecrets:
+      #   - name: myregistrykey
+      containers:
+        - name: client
+          # Replace with your actual Docker image name and tag
+          image: your-docker-id/anime-client:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
