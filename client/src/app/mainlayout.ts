@@ -30,7 +30,7 @@ import { AuthService } from './services/auth-service';
               </span>
             </div>
 
-            <div class="hidden md:flex items-center gap-8">
+            <div class="md:flex items-center gap-8">
                 <a routerLink="/animes" 
                   routerLinkActive="text-blue-600"
                   class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Animes</a>
