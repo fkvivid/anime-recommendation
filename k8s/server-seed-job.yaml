@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: anime-server-seed
+  namespace: anime
+  labels:
+    app: anime-server
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        app: anime-server
+        job: anime-server-seed
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: seed
+          image: fkvivid/anime-recommendation-server:latest
+          imagePullPolicy: Always
+          command: ["npm", "run", "seed"]
+          env:
+            - name: TOTAL_ANIME
+              value: "1000"
+          envFrom:
+            - secretRef:
+                name: anime-app-secrets

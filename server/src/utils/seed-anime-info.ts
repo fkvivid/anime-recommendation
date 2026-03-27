@@ -9,7 +9,7 @@ const openai = new OpenAI({
 });
 
 const JIKAN_BASE = 'https://api.jikan.moe/v4/top/anime?filter=bypopularity';
-const TOTAL_ANIME = 100;
+const TOTAL_ANIME = Number(process.env.TOTAL_ANIME) || 100;
 
 export function buildEmbedText(anime: IAnime): string {
     const tags = [

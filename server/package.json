@@ -13,7 +13,8 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "seed": "npx tsx --env-file=./.env ./src/utils/seed-anime-info.ts",
+        "seed": "npx tsx ./src/utils/seed-anime-info.ts",
+        "seed:local": "npx tsx --env-file=./.env ./src/utils/seed-anime-info.ts",
         "build": "npx tsc",
         "start": "node ./dist/server.js",
         "dev": "npx tsx --watch --env-file=./.env ./src/server.ts"
