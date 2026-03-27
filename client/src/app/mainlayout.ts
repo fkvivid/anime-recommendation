@@ -24,9 +24,9 @@ import { AuthService } from './services/auth-service';
           <div class="flex justify-between h-16 items-center">
             
             <div class="flex items-center gap-2 cursor-pointer" routerLink="/">
-              <mat-icon class="text-blue-600">movie_filter</mat-icon>
-              <span class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
-                Anime<span class="text-blue-600">Rec</span>
+              <mat-icon class="text-blue-600 shrink-0">movie_filter</mat-icon>
+              <span class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 leading-tight">
+                anime<span class="text-blue-600">Recommendation</span>
               </span>
             </div>
 
@@ -87,7 +87,7 @@ import { AuthService } from './services/auth-service';
       <footer class="border-t border-slate-100 py-10 bg-slate-50/50">
         <div class="max-w-7xl mx-auto px-4 text-center">
           <div class="flex justify-center items-center gap-2 mb-4">
-            <span class="text-sm font-bold text-slate-800">AnimeRec</span>
+            <span class="text-sm font-bold text-slate-800">anime<span class="text-blue-600">Recommendation</span></span>
           </div>
           <p class="text-xs text-slate-400 mb-4">
             Built with Angular, Tailwind, Express, MongoDB, and OpenAI's API. This project is a demonstration of a full-stack anime recommendation system.

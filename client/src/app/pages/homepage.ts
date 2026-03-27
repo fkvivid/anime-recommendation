@@ -9,8 +9,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AnimeService } from '../services/anime-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Anime } from '../types';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth-service';
 
 @Component({
   selector: 'app-homepage',
@@ -85,15 +83,21 @@ import { AuthService } from '../services/auth-service';
         @if (!isLoading() && animeResults().length > 0) {
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 class="text-3xl font-extrabold text-slate-900">Top {{ animeResults().length }} Picks</h2>
-              <p class="text-slate-500 mt-1 italic">"{{ searchQuery() }}" matches found</p>
+              <h2 class="text-3xl font-extrabold text-slate-900">Recommendations for you</h2>
+              <p class="text-slate-500 mt-1 italic">{{ animeResults().length }} picks matched to “{{ searchQuery() }}”</p>
             </div>
             <div class="h-1 grow mx-8 bg-slate-200 rounded-full hidden md:block"></div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
             @for (anime of animeResults(); track anime.mal_id) {
-              <div class="group relative w-full max-w-[300px] sm:max-w-none mx-auto bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2">
+              <a
+                [href]="'https://myanimelist.net/anime/' + anime.mal_id"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="'Open ' + anime.title + ' on MyAnimeList'"
+                class="group relative w-full max-w-[300px] sm:max-w-none mx-auto bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2 block no-underline text-inherit"
+              >
                 
                 <div class="aspect-[3/4] overflow-hidden bg-slate-100">
                   <img 
@@ -135,7 +139,7 @@ import { AuthService } from '../services/auth-service';
                 </div>
                 
                 <div class="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-              </div>
+              </a>
             }
           </div>
         }
@@ -150,8 +154,6 @@ export class Homepage {
   animeResults = signal<Anime[]>([]);
   animeService = inject(AnimeService);
   snackBar = inject(MatSnackBar);
-  router = inject(Router);
-  authService = inject(AuthService);
 
   onSearch() {
     if (!this.searchQuery().trim() || this.isLoading()) return;

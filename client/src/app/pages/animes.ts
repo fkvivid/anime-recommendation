@@ -42,7 +42,14 @@ import { WatchStatusDialog } from '../components/watch-status-dialog';
         @if (!isLoading()) {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8">
             @for (anime of animes(); track anime.mal_id) {
-              <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div
+                role="link"
+                tabindex="0"
+                (click)="openMyAnimeList(anime.mal_id)"
+                (keyup.enter)="openMyAnimeList(anime.mal_id)"
+                [attr.aria-label]="'Open ' + anime.title + ' on MyAnimeList'"
+                class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+              >
                 <div class="aspect-[3/4] relative overflow-hidden bg-slate-100">
                   <img [src]="anime.image_url" [alt]="anime.title" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
                   
@@ -69,7 +76,7 @@ import { WatchStatusDialog } from '../components/watch-status-dialog';
                     </div>
                     <button 
                         mat-icon-button 
-                        (click)="openWatchlistDialog(anime)" 
+                        (click)="$event.stopPropagation(); openWatchlistDialog(anime)" 
                         class="scale-75 text-slate-400 hover:text-blue-600 transition-colors"
                         matTooltip="Add to Watchlist">
                         <mat-icon>playlist_add</mat-icon>
@@ -141,6 +148,11 @@ export class Animes {
     handlePageEvent(e: PageEvent) {
         this.currentPage.set(e.pageIndex);
         this.pageSize.set(e.pageSize);
+    }
+
+    openMyAnimeList(malId: number) {
+        if (malId == null || Number.isNaN(malId)) return;
+        window.open(`https://myanimelist.net/anime/${malId}`, '_blank', 'noopener,noreferrer');
     }
 
     openWatchlistDialog(anime: any) {

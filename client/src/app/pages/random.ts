@@ -71,7 +71,14 @@ import { Anime } from '../types';
           </div>
 
           <div class="max-w-sm mx-auto">
-            <div class="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2">
+            <div
+              role="link"
+              tabindex="0"
+              (click)="openMyAnimeListFromResult()"
+              (keyup.enter)="openMyAnimeListFromResult()"
+              [attr.aria-label]="'Open ' + animeResult()?.title + ' on MyAnimeList'"
+              class="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2"
+            >
               
               <div class="aspect-[3/4] overflow-hidden bg-slate-100">
                 <img 
@@ -120,6 +127,12 @@ export class RandomPage {
   animeResult = signal<Anime | null>(null);
   animeService = inject(AnimeService);
   snackBar = inject(MatSnackBar);
+
+  openMyAnimeListFromResult() {
+    const malId = this.animeResult()?.mal_id;
+    if (malId == null || Number.isNaN(malId)) return;
+    window.open(`https://myanimelist.net/anime/${malId}`, '_blank', 'noopener,noreferrer');
+  }
 
   onRandomize() {
     this.isLoading.set(true);
