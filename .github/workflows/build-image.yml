@@ -1,0 +1,53 @@
+name: Docker build and push
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  IMAGE_PREFIX: fkvivid
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push server
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          file: ./server/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}/anime-recommendation-server:latest
+            ${{ env.IMAGE_PREFIX }}/anime-recommendation-server:${{ github.sha }}
+
+      - name: Build and push client
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          file: ./client/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}/anime-recommendation-client:latest
+            ${{ env.IMAGE_PREFIX }}/anime-recommendation-client:${{ github.sha }}
