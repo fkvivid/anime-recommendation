@@ -15,14 +15,9 @@ spec:
       labels:
         app: anime-client
     spec:
-      # Uncomment and configure if using a private Docker registry
-      # imagePullSecrets:
-      #   - name: myregistrykey
       containers:
         - name: client
-          # Replace with your actual Docker image name and tag
-          image: your-docker-id/anime-client:latest
-          imagePullPolicy: Always
+          image: fkvivid/anime-recommendation-client:latest
           ports:
             - containerPort: 80
           resources:
