@@ -25,16 +25,16 @@ import { AuthService } from './services/auth-service';
             
             <div class="flex items-center gap-2 cursor-pointer" routerLink="/">
               <mat-icon class="text-blue-600">movie_filter</mat-icon>
-              <span class="text-xl font-bold tracking-tight text-slate-900">
+              <span class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
                 Anime<span class="text-blue-600">Rec</span>
               </span>
             </div>
 
-            <div class="md:flex items-center gap-8">
+            <div class="hidden md:flex items-center gap-8">
+              @if (userDisplayName()) {
                 <a routerLink="/animes" 
                   routerLinkActive="text-blue-600"
                   class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Animes</a>
-              @if (userDisplayName()) {
                 <a routerLink="/my-animes" 
                   routerLinkActive="text-blue-600"
                   class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">My Animes</a>
@@ -44,7 +44,19 @@ import { AuthService } from './services/auth-service';
                 class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Random</a>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 sm:gap-4">
+              <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="md:hidden">
+                <mat-icon>menu</mat-icon>
+              </button>
+
+              <mat-menu #mobileMenu="matMenu">
+                <button mat-menu-item routerLink="/animes">Animes</button>
+                @if (userDisplayName()) {
+                  <button mat-menu-item routerLink="/my-animes">My Animes</button>
+                }
+                <button mat-menu-item routerLink="/random">Random</button>
+              </mat-menu>
+
               @if (userDisplayName()) {
                 <button [matMenuTriggerFor]="userMenu" class="flex items-center gap-2 p-1 rounded-full hover:bg-slate-50 transition-colors">
                   <span class="text-sm font-semibold text-slate-700 ml-2 hidden sm:block">{{ userDisplayName() }}</span>

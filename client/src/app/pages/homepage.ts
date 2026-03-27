@@ -38,16 +38,16 @@ import { AuthService } from '../services/auth-service';
           <div class="absolute inset-0 bg-black/60 backdrop-blur-[1px]"></div>
         </div>
 
-        <div class="z-10 w-full max-w-3xl px-6 text-center">
-          <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-2xl">
+        <div class="z-10 w-full max-w-3xl px-4 sm:px-6 text-center">
+          <h1 class="text-3xl sm:text-4xl md:text-7xl font-black text-white mb-4 sm:mb-6 tracking-tight drop-shadow-2xl">
             Find Your Next <span class="text-blue-400">Masterpiece</span>
           </h1>
           
-          <p class="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto drop-shadow-md font-medium">
+          <p class="text-slate-300 text-base sm:text-lg md:text-xl mb-6 sm:mb-10 max-w-xl mx-auto drop-shadow-md font-medium">
           Search for an anime you love, and let our AI recommend hidden gems that match your vibe.
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-xl p-4 rounded-3xl border border-white/20 shadow-2xl mb-6">
+          <div class="flex flex-col sm:flex-row gap-3 bg-white/10 backdrop-blur-xl p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl mb-6">
             <input 
               [(ngModel)]="searchQuery" 
               type="text"
@@ -73,7 +73,7 @@ import { AuthService } from '../services/auth-service';
         </div>
       </section>
 
-      <main class="flex-1 container mx-auto px-6 py-12" *ngIf="isLoading() || animeResults().length > 0">
+      <main class="flex-1 container mx-auto px-4 sm:px-6 py-8 sm:py-12" *ngIf="isLoading() || animeResults().length > 0">
         
         @if (isLoading()) {
           <div class="flex flex-col items-center justify-center py-24 gap-4">
@@ -85,21 +85,22 @@ import { AuthService } from '../services/auth-service';
         @if (!isLoading() && animeResults().length > 0) {
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 class="text-3xl font-extrabold text-slate-900">Top 9 Picks</h2>
+              <h2 class="text-3xl font-extrabold text-slate-900">Top {{ animeResults().length }} Picks</h2>
               <p class="text-slate-500 mt-1 italic">"{{ searchQuery() }}" matches found</p>
             </div>
             <div class="h-1 grow mx-8 bg-slate-200 rounded-full hidden md:block"></div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
             @for (anime of animeResults(); track anime.mal_id) {
-              <div class="group relative bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2">
+              <div class="group relative w-full max-w-[300px] sm:max-w-none mx-auto bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2">
                 
-                <div class="aspect-16/10 overflow-hidden">
+                <div class="aspect-[3/4] overflow-hidden bg-slate-100">
                   <img 
                     [src]="anime.image_url" 
                     [alt]="anime.title" 
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
+                    class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                   >
                   <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">
                     <span class="text-yellow-500">★</span> {{ anime.score }}

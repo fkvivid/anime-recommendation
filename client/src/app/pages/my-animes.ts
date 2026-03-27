@@ -20,11 +20,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule
   ],
   template: `
-    <div class="min-h-screen bg-[#f8fafc] py-12 px-6">
+    <div class="min-h-screen bg-[#f8fafc] py-8 sm:py-12 px-4 sm:px-6">
       
-      <div class="max-w-7xl mx-auto mb-10 flex justify-between items-end">
+      <div class="max-w-7xl mx-auto mb-6 sm:mb-10 flex justify-between items-end">
         <div>
-          <h1 class="text-3xl font-black text-slate-900">My Anime Library</h1>
+          <h1 class="text-2xl sm:text-3xl font-black text-slate-900">My Anime Library</h1>
         </div>
       </div>
 
@@ -38,11 +38,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         }
 
         @if (!isLoading()) {
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8">
             @for (item of animes(); track item.anime.mal_id) {
               <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300">
-                <div class="aspect-3/4 relative overflow-hidden bg-slate-100">
-                  <img [src]="item.anime.image_url" [alt]="item.anime.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="aspect-[3/4] relative overflow-hidden bg-slate-100">
+                  <img [src]="item.anime.image_url" [alt]="item.anime.title" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
                   
                   <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-lg text-white text-xs font-bold">
                     ★ {{ item.anime.score }}

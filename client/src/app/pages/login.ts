@@ -26,10 +26,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
       
       <div class="absolute inset-0 bg-black/50 z-0"></div>
 
-      <div class="max-w-md w-full bg-white rounded-xl shadow-2xl p-8 border border-slate-200 z-10 relative">
+      <div class="max-w-md w-full bg-white rounded-xl shadow-2xl p-5 sm:p-8 border border-slate-200 z-10 relative">
         
         <div class="text-center mb-8">
-          <h1 class="text-3xl font-bold text-slate-800">Log In</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Log In</h1>
           <p class="text-slate-500 mt-2">Welcome back to the Anime Recommender</p>
         </div>
 

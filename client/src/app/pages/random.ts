@@ -30,12 +30,12 @@ import { Anime } from '../types';
           <div class="absolute inset-0 bg-black/60 backdrop-blur-[1px]"></div>
         </div>
 
-        <div class="z-10 w-full max-w-3xl px-6 text-center py-20">
-          <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-2xl">
+        <div class="z-10 w-full max-w-3xl px-4 sm:px-6 text-center py-14 sm:py-20">
+          <h1 class="text-3xl sm:text-4xl md:text-7xl font-black text-white mb-4 sm:mb-6 tracking-tight drop-shadow-2xl">
             Discover a <span class="text-blue-400">Random Gem</span>
           </h1>
           
-          <p class="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto drop-shadow-md font-medium">
+          <p class="text-slate-300 text-base sm:text-lg md:text-xl mb-6 sm:mb-10 max-w-xl mx-auto drop-shadow-md font-medium">
           Let fate decide your next anime masterpiece.
           </p>
 
@@ -56,7 +56,7 @@ import { Anime } from '../types';
         </div>
       </section>
 
-      <main class="flex-1 container mx-auto px-6 py-12" *ngIf="isLoading() || animeResult()">
+      <main class="flex-1 container mx-auto px-4 sm:px-6 py-8 sm:py-12" *ngIf="isLoading() || animeResult()">
         
         @if (isLoading()) {
           <div class="flex flex-col items-center justify-center py-24 gap-4">
@@ -70,22 +70,23 @@ import { Anime } from '../types';
             <h2 class="text-3xl font-extrabold text-slate-900 text-center">Your Random Pick</h2>
           </div>
 
-          <div class="max-w-xl mx-auto">
+          <div class="max-w-sm mx-auto">
             <div class="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-slate-100 hover:-translate-y-2">
               
-              <div class="aspect-16/10 overflow-hidden">
+              <div class="aspect-[3/4] overflow-hidden bg-slate-100">
                 <img 
                   [src]="animeResult()?.image_url" 
                   [alt]="animeResult()?.title" 
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  loading="lazy"
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 >
                 <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 px-3 py-1 rounded-full text-xs font-bold shadow-sm">
                   <span class="text-yellow-500">★</span> {{ animeResult()?.score || 'N/A' }}
                 </div>
               </div>
 
-              <div class="p-8">
-                <h3 class="text-2xl font-bold text-slate-800 mb-2">
+              <div class="p-4 sm:p-6">
+                <h3 class="text-xl sm:text-2xl font-bold text-slate-800 mb-2">
                   {{ animeResult()?.title }}
                 </h3>
                 <p class="text-sm text-slate-500 italic mb-4">

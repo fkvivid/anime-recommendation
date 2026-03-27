@@ -43,7 +43,7 @@ export const getRecommendations = async (req: AuthRequest, res: Response, next: 
                     path: "embedding",
                     queryVector: embedding,
                     numCandidates: 100,
-                    limit: 9,
+                    limit: 8,
                 }
             },
             {
