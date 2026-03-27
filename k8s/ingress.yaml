@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: anime-ingress
-  namespace: anime-recommendation
+  namespace: anime
   annotations:
     # Use nginx class assuming standard ingress-nginx setup in homelab
     kubernetes.io/ingress.class: "nginx"
