@@ -1,19 +1,22 @@
-FROM node:25-alpine
-
+FROM node:25-alpine AS builder
 WORKDIR /app
 
-# Install dependencies first for better caching
 COPY package*.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm \
+    npm set cache=/root/.npm && \
+    npm ci
 
-# Copy remaining source code
 COPY . .
+RUN npm run build && npm prune --omit=dev
 
-# Build the TypeScript code
-RUN npm run build
+FROM node:25-alpine AS runner
+WORKDIR /app
 
-# Expose the port
+ENV NODE_ENV=production
+
+COPY package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 3000
-
-# Start the application
-CMD ["npm", "start"]
+CMD ["node", "dist/server.js"]
