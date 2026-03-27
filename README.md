@@ -107,8 +107,3 @@ kubectl logs -n anime job/anime-server-seed -f
 ```
 
 > Note: `k8s/client-deployment.yaml` contains a placeholder image name — replace it with your published client image.
-
-## Resume-ready bullets (copy/paste)
-- Built a full-stack anime recommendation app using **Angular 21** + **Node/Express (TypeScript)** with **JWT access/refresh tokens** and protected CRUD endpoints.
-- Implemented AI-powered retrieval by generating **OpenAI embeddings** for anime metadata and serving recommendations via **MongoDB Atlas Vector Search** (`$vectorSearch`) for “vibe-based” queries.
-- Containerized the system and deployed with **Kubernetes** (Deployments/Services/Ingress) plus a **one-time Job** to seed and embed data; published **multi-arch Docker images** (`amd64` + `arm64`).
