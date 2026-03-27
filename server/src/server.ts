@@ -16,12 +16,12 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('api/auth', authRoutes);
-app.use('api/anime', animeRoutes);
-app.use('api/recommendations', recommendationRoutes);
+app.use('/auth', authRoutes);
+app.use('/anime', animeRoutes);
+app.use('/recommendations', recommendationRoutes);
 
 // Health check
-app.get('api/health', (req, res) => {
+app.get('/health', (req, res) => {
     res.json({ status: 'OK' });
 });
 
