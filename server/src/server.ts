@@ -16,13 +16,22 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/anime', animeRoutes);
-app.use('/recommendations', recommendationRoutes);
+app.use('api/auth', authRoutes);
+app.use('api/anime', animeRoutes);
+app.use('api/recommendations', recommendationRoutes);
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('api/health', (req, res) => {
     res.json({ status: 'OK' });
+});
+
+// Not found handler for unknown API routes
+app.use((req, res) => {
+    res.status(404).json({
+        error: 'Route not found',
+        method: req.method,
+        path: req.originalUrl,
+    });
 });
 
 app.use(errorHandler);
