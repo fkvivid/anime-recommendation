@@ -1,9 +1,6 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { AuthService } from './services/auth-service';
 
 @Component({
   selector: 'app-main-layout',
@@ -12,9 +9,7 @@ import { AuthService } from './services/auth-service';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule
+    MatIconModule
   ],
   template: `
     <div class="flex flex-col min-h-screen bg-white">
@@ -30,52 +25,17 @@ import { AuthService } from './services/auth-service';
               </span>
             </div>
 
-            <div class="hidden md:flex items-center gap-8">
-              @if (userDisplayName()) {
-                <a routerLink="/animes" 
-                  routerLinkActive="text-blue-600"
-                  class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Animes</a>
-                <a routerLink="/my-animes" 
-                  routerLinkActive="text-blue-600"
-                  class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">My Animes</a>
-              }
-              <a routerLink="/random" 
-                routerLinkActive="text-blue-600"
+            <div class="flex items-center gap-6">
+              <a routerLink="/"
+                [routerLinkActive]="['!text-blue-600', 'font-semibold']"
+                [routerLinkActiveOptions]="{ exact: true }"
+                ariaCurrentWhenActive="page"
+                class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Discover</a>
+              <a routerLink="/random"
+                [routerLinkActive]="['!text-blue-600', 'font-semibold']"
+                ariaCurrentWhenActive="page"
                 class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Random</a>
             </div>
-
-            <div class="flex items-center gap-2 sm:gap-4">
-              <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="md:hidden">
-                <mat-icon>menu</mat-icon>
-              </button>
-
-              <mat-menu #mobileMenu="matMenu">
-                <button mat-menu-item routerLink="/animes">Animes</button>
-                @if (userDisplayName()) {
-                  <button mat-menu-item routerLink="/my-animes">My Animes</button>
-                }
-                <button mat-menu-item routerLink="/random">Random</button>
-              </mat-menu>
-
-              @if (userDisplayName()) {
-                <button [matMenuTriggerFor]="userMenu" class="flex items-center gap-2 p-1 rounded-full hover:bg-slate-50 transition-colors">
-                  <span class="text-sm font-semibold text-slate-700 ml-2 hidden sm:block">{{ userDisplayName() }}</span>
-                  <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 border border-slate-200">
-                    <mat-icon class="scale-75">person</mat-icon>
-                  </div>
-                </button>
-
-                <mat-menu #userMenu="matMenu">
-                  <button mat-menu-item class="text-red-600" (click)="onLogout()">
-                    <mat-icon class="text-red-600">logout</mat-icon>
-                    <span>Logout</span>
-                  </button>
-                </mat-menu>
-              } @else {
-                <a routerLink="/login" mat-button color="primary" class="font-semibold">Login</a>
-              }
-            </div>
-
           </div>
         </div>
       </nav>
@@ -102,18 +62,4 @@ import { AuthService } from './services/auth-service';
     </div>
   `
 })
-export class MainLayout {
-  private authService = inject(AuthService);
-  userDisplayName = signal<string | null>(null);
-
-  constructor() {
-    effect(() => {
-      const user = this.authService.currentUser();
-      this.userDisplayName.set(user?.displayName || null);
-    });
-  }
-
-  onLogout() {
-    this.authService.signOut();
-  }
-}
+export class MainLayout {}

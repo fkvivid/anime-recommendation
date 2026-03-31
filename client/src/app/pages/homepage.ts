@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import confetti from 'canvas-confetti';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -163,6 +164,11 @@ export class Homepage {
       next: (response) => {
         this.animeResults.set(response.data);
         this.isLoading.set(false);
+        if (response.data?.length) {
+          queueMicrotask(() => {
+            void confetti({ particleCount: 120, spread: 72, origin: { y: 0.65 } });
+          });
+        }
       },
       error: (error) => {
         console.error('Recommendation error:', error);

@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import confetti from 'canvas-confetti';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -142,6 +143,14 @@ export class RandomPage {
       next: (response) => {
         if (response.data) {
           this.animeResult.set(response.data);
+          queueMicrotask(() => {
+            void confetti({
+              particleCount: 140,
+              spread: 80,
+              origin: { y: 0.55 },
+              colors: ['#2563eb', '#93c5fd', '#fbbf24', '#fef08a']
+            });
+          });
         } else {
           this.snackBar.open('No anime found!', 'Close', { duration: 3000 });
         }
