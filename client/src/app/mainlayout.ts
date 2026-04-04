@@ -53,7 +53,7 @@ import { MatIconModule } from '@angular/material/icon';
             Built with Angular, Tailwind, Express, MongoDB, and OpenAI's API. This project is a demonstration of a full-stack anime recommendation system.
           </p>
           <div class="flex justify-center gap-6">
-            <a routerLink="/about" class="text-xs text-slate-500 hover:text-blue-600 underline-offset-4 hover:underline">About Me</a>
+            <a href="https://www.linkedin.com/in/fkvivid" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500 hover:text-blue-600 underline-offset-4 hover:underline">About Me</a>
             <span class="text-slate-300">|</span>
             <span class="text-xs text-slate-400">© 2026</span>
           </div>
