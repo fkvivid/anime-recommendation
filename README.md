@@ -111,3 +111,12 @@ kubectl logs -n anime job/anime-server-seed -f
 ```
 
 > Note: `k8s/client-deployment.yaml` contains a placeholder image name — replace it with your published client image.
+
+---
+
+## Footer
+
+Made with Angular, Node.js, MongoDB Atlas Vector Search, and OpenAI.
+
+- Repository: [fkvivid/anime-recommendation](https://github.com/fkvivid/anime-recommendation)
+- Live demo: [anime.vividtemka.com](https://anime.vividtemka.com)

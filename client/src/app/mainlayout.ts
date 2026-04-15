@@ -44,22 +44,26 @@ import { MatIconModule } from '@angular/material/icon';
         <router-outlet></router-outlet>
       </main>
 
-      <footer class="border-t border-slate-100 py-10 bg-slate-50/50">
+      <footer class="border-t border-slate-200 py-8 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 text-center">
-          <div class="flex justify-center items-center gap-2 mb-4">
-            <span class="text-sm font-bold text-slate-800">anime<span class="text-blue-600">Recommendation</span></span>
-          </div>
-          <p class="text-xs text-slate-400 mb-4">
-            Built with Angular, Tailwind, Express, MongoDB, and OpenAI's API. This project is a demonstration of a full-stack anime recommendation system.
+          <p class="text-sm font-semibold text-slate-800 mb-2">
+            anime<span class="text-blue-600">Recommendation</span>
           </p>
-          <div class="flex justify-center gap-6">
-            <a href="https://www.linkedin.com/in/fkvivid" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500 hover:text-blue-600 underline-offset-4 hover:underline">About Me</a>
+          <p class="text-xs text-slate-500 mb-4">
+            Built with Angular, Tailwind, Node.js, MongoDB Atlas Vector Search, and OpenAI.
+          </p>
+          <div class="flex justify-center items-center gap-4 text-xs text-slate-500">
+            <a href="https://github.com/fkvivid/anime-recommendation" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 underline-offset-4 hover:underline">GitHub</a>
             <span class="text-slate-300">|</span>
-            <span class="text-xs text-slate-400">© 2026</span>
+            <a href="https://anime.vividtemka.com" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 underline-offset-4 hover:underline">Live Demo</a>
+            <span class="text-slate-300">|</span>
+            <span>© {{ currentYear }} fkvivid</span>
           </div>
         </div>
       </footer>
     </div>
   `
 })
-export class MainLayout {}
+export class MainLayout {
+  protected readonly currentYear = new Date().getFullYear();
+}
